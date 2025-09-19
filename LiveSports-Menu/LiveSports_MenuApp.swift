@@ -10,7 +10,6 @@ import SwiftUI
 @main
 struct LiveSports_MenuApp: App {
     @StateObject private var fetcher = GameFetcher()
-    @State private var currentSport: Sport = .mlb
 
     var body: some Scene {
         MenuBarExtra {
@@ -19,7 +18,7 @@ struct LiveSports_MenuApp: App {
             Label {
                 Text("Live Sports Scores")
             } icon: {
-                let iconName = currentSport == .mlb ? "MLBIcon" : "NFLIcon"
+                let iconName = fetcher.sport == .mlb ? "MLBIcon" : "NFLIcon"
                 let image: NSImage = {
                     let img = NSImage(named: iconName)!
                     let ratio = img.size.height / img.size.width
