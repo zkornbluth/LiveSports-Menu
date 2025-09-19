@@ -32,4 +32,5 @@ Switch to the current week's NFL schedule (and change the icon into a football):
 1. Click the gear in the bottom right
 2. Hover over "Change Sport"
 3. In the submenu, click "NFL"
-<img src="https://github.com/user-attachments/assets/72533833-1dd6-4357-bb5c-23e7b27e41f5" width="434" height="686" />
+
+<img src="https://github.com/user-attachments/assets/2df24732-32f2-4845-9293-4aae1001dc19" width="434" height="686" />
