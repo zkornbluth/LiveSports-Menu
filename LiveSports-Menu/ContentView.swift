@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var fetcher: GameFetcher
-    @Binding var currentSport: Sport
     
     var body: some View {
         VStack(spacing: 8) {
@@ -68,7 +67,7 @@ struct ContentView: View {
             HStack {
                 Spacer()
                 Menu {
-                    Picker("Change Sport", selection: $currentSport) {
+                    Picker("Change Sport", selection: $fetcher.sport) {
                         Text("MLB").tag(Sport.mlb)
                         Text("NFL").tag(Sport.nfl)
                     }
@@ -82,7 +81,7 @@ struct ContentView: View {
                 .frame(maxWidth: 166, alignment: .trailing)
                 .fixedSize()
             }
-            .onChange(of: currentSport) { newSport in
+            .onChange(of: fetcher.sport) { newSport, _ in
                 Task {
                     await fetcher.switchSport(to: newSport)
                 }

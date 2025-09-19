@@ -14,7 +14,7 @@ struct LiveSports_MenuApp: App {
 
     var body: some Scene {
         MenuBarExtra {
-            ContentView(fetcher: fetcher, currentSport: $currentSport)
+            ContentView(fetcher: fetcher)
         } label: {
             Label {
                 Text("Live Sports Scores")

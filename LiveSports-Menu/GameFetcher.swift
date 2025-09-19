@@ -11,10 +11,10 @@ import SwiftUI
 @MainActor
 class GameFetcher: ObservableObject {
     @Published var events: [Event] = []
-    @Published var currentSport: Sport = .mlb
+    @Published var sport: Sport = .mlb
 
     func loadTodayGames() async {
-        guard let url = URL(string: currentSport.apiURL) else {
+        guard let url = URL(string: sport.apiURL) else {
             print("Invalid ESPN URL")
             return
         }
@@ -33,7 +33,6 @@ class GameFetcher: ObservableObject {
     }
 
     func switchSport(to sport: Sport) async {
-        currentSport = sport
         await loadTodayGames()
     }
 }
