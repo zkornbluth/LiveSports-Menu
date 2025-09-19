@@ -50,11 +50,33 @@ struct Status: Decodable {
 
 struct StatusType: Decodable {
     let shortDetail: String
+    let detail: String
     
     var displayTimeOnly: String {
+        return displayTime(for: .mlb) // Default to MLB behavior
+    }
+    
+    func displayTime(for sport: Sport) -> String {
         // If shortDetail contains " - ", take the part after it
         if let range = shortDetail.range(of: " - ") {
-            return String(shortDetail[range.upperBound...])
+            let timeWithTimezone = String(shortDetail[range.upperBound...]) // "10:10 PM EDT"
+            
+            // Remove timezone (EDT, EST, PDT, PST, etc.) - any 3-letter word at the end
+            let components = timeWithTimezone.components(separatedBy: " ")
+            let timeOnly = if components.count > 1, let lastComponent = components.last, lastComponent.count == 3 {
+                components.dropLast().joined(separator: " ")
+            } else {
+                timeWithTimezone
+            }
+            
+            // For NFL, add day of week from the detail field
+            // But only if the detail actually contains a day (ends with comma)
+            if sport == .nfl, !detail.isEmpty, detail.contains(",") {
+                let dayOfWeek = String(detail.prefix(3)) // Get first 3 characters
+                return "\(dayOfWeek) \(timeOnly)"
+            } else {
+                return timeOnly
+            }
         }
         // Otherwise just return whatever ESPN sent
         return shortDetail

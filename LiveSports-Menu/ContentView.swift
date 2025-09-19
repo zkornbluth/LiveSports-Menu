@@ -16,50 +16,7 @@ struct ContentView: View {
                 Text("Loading…")
             } else {
                 ForEach(fetcher.events) { event in
-                    if let competition = event.competitions.first {
-                        let away = competition.competitors.first { $0.homeAway == "away" }
-                        let home = competition.competitors.first { $0.homeAway == "home" }
-                        
-                        if let away = away, let home = home {
-                            let statusText = event.status.type.displayTimeOnly
-                            let gameNotStarted = statusText.contains("AM") || statusText.contains("PM")
-                            
-                            HStack(spacing: 6) {
-                                AsyncImage(url: URL(string: away.team.logo)) { image in
-                                    image.resizable().scaledToFit()
-                                } placeholder: {
-                                    ProgressView()
-                                }
-                                .frame(width: 24, height: 24)
-                                
-                                if gameNotStarted {
-                                    Text(statusText)
-                                        .font(.footnote)
-                                        .frame(minWidth: 102, alignment: .center)
-                                } else {
-                                    Text("\(away.intScore)")
-                                        .font(.subheadline)
-                                        .frame(width: 20, alignment: .trailing)
-                                    
-                                    Text(statusText)
-                                        .font(.footnote)
-                                        .foregroundColor(.gray)
-                                        .frame(minWidth: 50, alignment: .center)
-                                    
-                                    Text("\(home.intScore)")
-                                        .font(.subheadline)
-                                        .frame(width: 20, alignment: .leading)
-                                }
-                                
-                                AsyncImage(url: URL(string: home.team.logo)) { image in
-                                    image.resizable().scaledToFit()
-                                } placeholder: {
-                                    ProgressView()
-                                }
-                                .frame(width: 24, height: 24)
-                            }
-                        }
-                    }
+                    GameRowView(event: event, sport: fetcher.sport)
                 }
             }
             Divider()
@@ -96,3 +53,54 @@ struct ContentView: View {
     }
 }
 
+struct GameRowView: View {
+    let event: Event
+    let sport: Sport
+    
+    var body: some View {
+        if let competition = event.competitions.first {
+            let away = competition.competitors.first { $0.homeAway == "away" }
+            let home = competition.competitors.first { $0.homeAway == "home" }
+            
+            if let away = away, let home = home {
+                let statusText = event.status.type.displayTime(for: sport)
+                let gameNotStarted = statusText.contains("AM") || statusText.contains("PM")
+                
+                HStack(spacing: 6) {
+                    AsyncImage(url: URL(string: away.team.logo)) { image in
+                        image.resizable().scaledToFit()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .frame(width: 24, height: 24)
+                    
+                    if gameNotStarted {
+                        Text(statusText)
+                            .font(.footnote)
+                            .frame(minWidth: 102, alignment: .center)
+                    } else {
+                        Text("\(away.intScore)")
+                            .font(.subheadline)
+                            .frame(width: 20, alignment: .trailing)
+                        
+                        Text(statusText)
+                            .font(.footnote)
+                            .foregroundColor(.gray)
+                            .frame(minWidth: 50, alignment: .center)
+                        
+                        Text("\(home.intScore)")
+                            .font(.subheadline)
+                            .frame(width: 20, alignment: .leading)
+                    }
+                    
+                    AsyncImage(url: URL(string: home.team.logo)) { image in
+                        image.resizable().scaledToFit()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .frame(width: 24, height: 24)
+                }
+            }
+        }
+    }
+}
