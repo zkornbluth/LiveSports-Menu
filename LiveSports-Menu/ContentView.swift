@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var fetcher = GameFetcher()
+    @ObservedObject var fetcher: GameFetcher
+    @Binding var currentSport: Sport
     
     var body: some View {
         VStack(spacing: 8) {
@@ -67,6 +68,11 @@ struct ContentView: View {
             HStack {
                 Spacer()
                 Menu {
+                    Picker("Change Sport", selection: $currentSport) {
+                        Text("MLB").tag(Sport.mlb)
+                        Text("NFL").tag(Sport.nfl)
+                    }
+                    Divider()
                     Button("Quit") { NSApp.terminate(nil) }
                 } label: {
                     Image(systemName: "gearshape.fill")
@@ -76,16 +82,18 @@ struct ContentView: View {
                 .frame(maxWidth: 166, alignment: .trailing)
                 .fixedSize()
             }
+            .onChange(of: currentSport) { newSport in
+                Task {
+                    await fetcher.switchSport(to: newSport)
+                }
+            }
             .frame(maxWidth: 166)
         }
         .padding()
         .background(Color(.windowBackgroundColor))
-        .onAppear {
-            fetcher.loadTodayGames()
+        .task {
+            await fetcher.loadTodayGames()
         }
     }
 }
 
-#Preview {
-    ContentView()
-}
