@@ -11,7 +11,7 @@ struct ContentView: View {
     @StateObject private var fetcher = GameFetcher()
     
     var body: some View {
-        VStack {
+        VStack(spacing: 8) {
             if fetcher.events.isEmpty {
                 Text("Loading…")
             } else {
@@ -21,7 +21,10 @@ struct ContentView: View {
                         let home = competition.competitors.first { $0.homeAway == "home" }
                         
                         if let away = away, let home = home {
-                            HStack {
+                            let statusText = event.status.type.displayTimeOnly
+                            let gameNotStarted = statusText.contains("AM") || statusText.contains("PM")
+                            
+                            HStack(spacing: 6) {
                                 AsyncImage(url: URL(string: away.team.logo)) { image in
                                     image.resizable().scaledToFit()
                                 } placeholder: {
@@ -29,16 +32,24 @@ struct ContentView: View {
                                 }
                                 .frame(width: 24, height: 24)
                                 
-                                Text("\(away.intScore)")
-                                    .frame(width: 20, alignment: .trailing)
-                                
-                                Text(event.status.type.displayTimeOnly)
-                                    .font(.footnote)
-                                    .foregroundColor(.gray)
-                                    .frame(width: 90, alignment: .center)
-                                
-                                Text("\(home.intScore)")
-                                    .frame(width: 20, alignment: .leading)
+                                if gameNotStarted {
+                                    Text(statusText)
+                                        .font(.footnote)
+                                        .frame(minWidth: 102, alignment: .center)
+                                } else {
+                                    Text("\(away.intScore)")
+                                        .font(.subheadline)
+                                        .frame(width: 20, alignment: .trailing)
+                                    
+                                    Text(statusText)
+                                        .font(.footnote)
+                                        .foregroundColor(.gray)
+                                        .frame(minWidth: 50, alignment: .center)
+                                    
+                                    Text("\(home.intScore)")
+                                        .font(.subheadline)
+                                        .frame(width: 20, alignment: .leading)
+                                }
                                 
                                 AsyncImage(url: URL(string: home.team.logo)) { image in
                                     image.resizable().scaledToFit()
@@ -51,12 +62,27 @@ struct ContentView: View {
                     }
                 }
             }
-        }
-        .onAppear {
-            fetcher.loadTodayGames()
+            Divider()
+                .frame(maxWidth: 166)
+            HStack {
+                Spacer()
+                Menu {
+                    Button("Quit") { NSApp.terminate(nil) }
+                } label: {
+                    Image(systemName: "gearshape.fill")
+                        .padding(4)
+                }
+                .menuStyle(.borderlessButton)
+                .frame(maxWidth: 166, alignment: .trailing)
+                .fixedSize()
+            }
+            .frame(maxWidth: 166)
         }
         .padding()
         .background(Color(.windowBackgroundColor))
+        .onAppear {
+            fetcher.loadTodayGames()
+        }
     }
 }
 

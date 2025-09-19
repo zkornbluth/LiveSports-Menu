@@ -11,18 +11,7 @@ import SwiftUI
 struct LiveSports_MenuApp: App {
     var body: some Scene {
         MenuBarExtra {
-                    ContentView()
-                        .overlay(alignment: .topTrailing) {
-                                    Button(
-                                        "Quit",
-                                        systemImage: "xmark.circle.fill"
-                                    ) {
-                                        NSApp.terminate(nil)
-                                    }
-                                    .labelStyle(.iconOnly)
-                                    .buttonStyle(.plain)
-                                    .padding(6)
-                                }
+            ContentView()
         } label: {
             Label {
                     Text("Live Sports Scores")
