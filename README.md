@@ -1,6 +1,9 @@
 <!-- Author: Zachary Kornbluth -->
 <!-- GitHub: github.com/zkornbluth -->
 # Live Sports Scores Menu Bar App
+MacOS Menu Bar app to follow MLB and NFL game scores live. 
+
+Inspired by [https://github.com/markolson/MLB-Menu](https://github.com/markolson/MLB-Menu) and [https://github.com/kchau/NFL-Menu](https://github.com/kchau/NFL-Menu).
 
 ## Installation
 *LiveSports-Menu requires macOS 15.0 or later*
