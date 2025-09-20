@@ -23,10 +23,15 @@ struct ContentView: View {
                 .frame(maxWidth: 166)
             HStack {
                 Spacer()
+                Text("All times in EDT")
+                    .font(.footnote)
                 Menu {
                     Picker("Change Sport", selection: $fetcher.sport) {
                         Text("MLB").tag(Sport.mlb)
                         Text("NFL").tag(Sport.nfl)
+                        Text("NHL").tag(Sport.nhl)
+                        Text("NBA").tag(Sport.nba)
+                        Text("Premier League").tag(Sport.epl)
                     }
                     Divider()
                     Button("Quit") { NSApp.terminate(nil) }
@@ -63,11 +68,12 @@ struct GameRowView: View {
             let home = competition.competitors.first { $0.homeAway == "home" }
             
             if let away = away, let home = home {
-                let statusText = event.status.type.displayTime(for: sport)
+                let statusText = event.status.type.displayStatus(for: sport)
                 let gameNotStarted = statusText.contains("AM") || statusText.contains("PM")
                 
                 HStack(spacing: 6) {
-                    AsyncImage(url: URL(string: away.team.logo)) { image in
+                    let awayLogo = away.team.logo == "" ? sport.leagueLogo : away.team.logo
+                    AsyncImage(url: URL(string: awayLogo)) { image in
                         image.resizable().scaledToFit()
                     } placeholder: {
                         ProgressView()
@@ -93,7 +99,8 @@ struct GameRowView: View {
                             .frame(width: 20, alignment: .leading)
                     }
                     
-                    AsyncImage(url: URL(string: home.team.logo)) { image in
+                    let homeLogo = home.team.logo == "" ? sport.leagueLogo : home.team.logo
+                    AsyncImage(url: URL(string: homeLogo)) { image in
                         image.resizable().scaledToFit()
                     } placeholder: {
                         ProgressView()
@@ -103,4 +110,9 @@ struct GameRowView: View {
             }
         }
     }
+}
+
+#Preview {
+    ContentView(fetcher: GameFetcher())
+        .frame(minHeight: 550)
 }

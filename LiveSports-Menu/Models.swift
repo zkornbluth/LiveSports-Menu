@@ -51,34 +51,42 @@ struct Status: Decodable {
 struct StatusType: Decodable {
     let shortDetail: String
     let detail: String
+    let state: String
     
-    var displayTimeOnly: String {
-        return displayTime(for: .mlb) // Default to MLB behavior
+    var statusStr: String {
+        return displayStatus(for: .mlb) // Default to MLB behavior
     }
     
-    func displayTime(for sport: Sport) -> String {
-        // If shortDetail contains " - ", take the part after it
-        if let range = shortDetail.range(of: " - ") {
-            let timeWithTimezone = String(shortDetail[range.upperBound...]) // "10:10 PM EDT"
-            
-            // Remove timezone (EDT, EST, PDT, PST, etc.) - any 3-letter word at the end
-            let components = timeWithTimezone.components(separatedBy: " ")
-            let timeOnly = if components.count > 1, let lastComponent = components.last, lastComponent.count == 3 {
-                components.dropLast().joined(separator: " ")
-            } else {
-                timeWithTimezone
-            }
-            
-            // For NFL, add day of week from the detail field
-            // But only if the detail actually contains a day (ends with comma)
-            if sport == .nfl, !detail.isEmpty, detail.contains(",") {
-                let dayOfWeek = String(detail.prefix(3)) // Get first 3 characters
-                return "\(dayOfWeek) \(timeOnly)"
-            } else {
-                return timeOnly
+    func displayStatus(for sport: Sport) -> String {
+        // If state is "pre" - game hasn't started yet
+        if self.state == "pre" {
+            switch sport {
+            case .mlb, .nhl, .nba, .nfl:
+                // MLB, NHL, NBA are all the same - just want the time
+                // NFL is almost the same, but add the weekday from detail
+                let range = shortDetail.range(of: " - ")
+                if range != nil {
+                    let timeWithTimezone = String(shortDetail[range!.upperBound...])
+                    let weekday: String
+                    if sport == .nfl {
+                        weekday = detail.prefix(3) + " "
+                    } else {
+                        weekday = ""
+                    }
+                    return weekday + String(timeWithTimezone.dropLast(4)) // drop timezone and leading space
+                }
+            case .epl:
+                // EPL has scheduled time only in detail, not shortDetail
+                // Also has no -, need to split around " at "
+                let range = detail.range(of: " at ")
+                if range != nil {
+                    let timeWithTimezone = String(detail[range!.upperBound...])
+                    let weekday = detail.prefix(3)
+                    return weekday + " " + String(timeWithTimezone.dropLast(4))
+                }
             }
         }
-        // Otherwise just return whatever ESPN sent
+        // Otherwise - game is in progress or over, just return shortDetail
         return shortDetail
     }
 }
