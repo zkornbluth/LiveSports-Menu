@@ -7,8 +7,8 @@
       "layers" : [
         {
           "glass" : false,
-          "image-name" : "AppIcon512.png",
-          "name" : "AppIcon512",
+          "image-name" : "balls-sports.png",
+          "name" : "AppIcon",
           "position" : {
             "scale" : 1.5,
             "translation-in-points" : [

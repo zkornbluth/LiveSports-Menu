@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var fetcher: GameFetcher
+    @Binding var showingAbout: Bool
+    @Environment(\.openWindow) var openWindow
     
     var body: some View {
         VStack(spacing: 8) {
@@ -34,6 +36,18 @@ struct ContentView: View {
                         Text("Premier League").tag(Sport.epl)
                     }
                     Divider()
+                    Button("About") {
+                        // Try multiple approaches to open the window
+                        openWindow(id: "aboutWindow")
+                        
+                        // Alternative approach using NSApp
+                        DispatchQueue.main.async {
+                            if let window = NSApp.windows.first(where: { $0.identifier?.rawValue == "aboutWindow" }) {
+                                window.makeKeyAndOrderFront(nil)
+                                NSApp.activate(ignoringOtherApps: true)
+                            }
+                        }
+                    }
                     Button("Quit") { NSApp.terminate(nil) }
                 } label: {
                     Image(systemName: "gearshape.fill")
@@ -112,7 +126,7 @@ struct GameRowView: View {
     }
 }
 
-#Preview {
-    ContentView(fetcher: GameFetcher())
-        .frame(minHeight: 550)
-}
+//#Preview {
+//    ContentView(fetcher: GameFetcher(), showingAbout: false)
+//        .frame(minHeight: 550)
+//}

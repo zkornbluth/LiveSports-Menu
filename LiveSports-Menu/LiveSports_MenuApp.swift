@@ -10,10 +10,11 @@ import SwiftUI
 @main
 struct LiveSports_MenuApp: App {
     @StateObject private var fetcher = GameFetcher()
+    @State private var showingAbout = false
 
     var body: some Scene {
         MenuBarExtra {
-            ContentView(fetcher: fetcher)
+            ContentView(fetcher: fetcher, showingAbout: $showingAbout)
         } label: {
             Label {
                 Text("Live Sports Scores")
@@ -30,6 +31,13 @@ struct LiveSports_MenuApp: App {
             }
         }
         .menuBarExtraStyle(.window)
+        
+        Window("About", id: "aboutWindow") {
+            AboutView()
+        }
+        .windowResizability(.contentSize)
+        .windowStyle(.titleBar)
+        .defaultPosition(.center)
     }
 }
 

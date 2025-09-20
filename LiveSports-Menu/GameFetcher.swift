@@ -33,6 +33,7 @@ class GameFetcher: ObservableObject {
     }
 
     func switchSport(to sport: Sport) async {
+        self.events = []
         await loadTodayGames()
     }
 }
