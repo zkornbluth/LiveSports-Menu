@@ -1,14 +1,14 @@
 <!-- Author: Zachary Kornbluth -->
 <!-- GitHub: github.com/zkornbluth -->
 # Live Sports Scores Menu Bar App
-MacOS Menu Bar app to follow MLB and NFL game scores live. 
+MacOS Menu Bar app to follow MLB, NFL, NHL, NBA, and Premier League game scores live. 
 
 Inspired by [https://github.com/markolson/MLB-Menu](https://github.com/markolson/MLB-Menu) and [https://github.com/kchau/NFL-Menu](https://github.com/kchau/NFL-Menu).
 
 ## Installation
 *LiveSports-Menu requires macOS 15.0 or later*
 
-Click on `LiveSports-Menu-1.0.dmg` and click the Download button, or click [here](https://github.com/zkornbluth/LiveSports-Menu/releases/download/v1.0/LiveSports-Menu.1.0.dmg).
+Click on `LiveSports-Menu-1.1.dmg` and click the Download button, or click [here](https://github.com/zkornbluth/LiveSports-Menu/releases/download/v1.1/LiveSports-Menu.1.1.dmg).
 
 Double-click on the .dmg in your Downloads folder. In the popup, drag LiveSports Menu into your Applications folder.
 
@@ -29,11 +29,35 @@ Note: you may also get that warning when opening the .dmg
 ## Using the App
 All interaction is through the macOS Menu Bar. Click the baseball icon to open the app.
 
-The app defaults to showing the current day's MLB schedule. The ESPN API (where the app gets the data) changes from the previous day's scoreboard to the current day's schedule usually between 9am and 11am ET. The NFL scoreboard is weekly, and it changes to the next week's schedule on Tuesdays usually between 9am and 11am ET.
+The app defaults to showing the current day's MLB schedule. 
 
-Switch to the current week's NFL schedule (and change the icon into a football):
+The ESPN API (where the app gets the data) changes from the previous day's scoreboard to the current day's schedule usually between 9am and 11am ET (for all leagues except NFL). 
+
+The NFL scoreboard is weekly, and it changes to the next week's schedule on Tuesdays usually between 9am and 11am ET.
+
+Switch to another league:
 1. Click the gear in the bottom right
 2. Hover over "Change Sport"
-3. In the submenu, click "NFL"
+3. In the submenu, click the league name
 
-<img src="https://github.com/user-attachments/assets/2df24732-32f2-4845-9293-4aae1001dc19" width="434" height="686" />
+<!--<img src="https://github.com/user-attachments/assets/2df24732-32f2-4845-9293-4aae1001dc19" width="434" height="686" />-->
+<img src="https://github.com/user-attachments/assets/36d28c35-f68c-4eb2-a761-008f732ad533" width="474" height="738" />
+
+### Credits
+Baseball icon:
+<a href="https://www.flaticon.com/free-icons/baseball" title="baseball icons">Baseball icons created by Freepik - Flaticon</a>
+
+Football icon:
+<a href="https://www.flaticon.com/free-icons/american-football" title="american-football icons">American-football icons created by Freepik - Flaticon</a>
+
+Hockey icon:
+<a href="https://www.flaticon.com/free-icons/hockey-skate" title="hockey skate icons">Hockey skate icons created by andinur - Flaticon</a>
+
+Basketball icon:
+<a href="https://www.flaticon.com/free-icons/basketball" title="basketball icons">Basketball icons created by Freepik - Flaticon</a>
+
+Soccer icon:
+<a href="https://www.flaticon.com/free-icons/sport" title="sport icons">Sport icons created by mavadee - Flaticon</a>
+
+App icon:
+<a href="https://www.flaticon.com/free-icons/sports" title="sports icons">Sports icons created by small.smiles - Flaticon</a>
