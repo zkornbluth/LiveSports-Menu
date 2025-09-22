@@ -17,6 +17,11 @@ struct Event: Decodable, Identifiable {
     let id: String
     let competitions: [Competition]
     let status: Status
+    let links: [Link]
+}
+
+struct Link: Decodable {
+    let href: String
 }
 
 // Competition (wraps the actual competitors)
@@ -81,8 +86,7 @@ struct StatusType: Decodable {
                 let range = detail.range(of: " at ")
                 if range != nil {
                     let timeWithTimezone = String(detail[range!.upperBound...])
-                    let weekday = detail.prefix(3)
-                    return weekday + " " + String(timeWithTimezone.dropLast(4))
+                    return String(timeWithTimezone.dropLast(4))
                 }
             }
         }

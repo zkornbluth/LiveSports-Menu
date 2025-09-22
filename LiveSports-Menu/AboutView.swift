@@ -27,7 +27,7 @@ struct AboutView: View {
                 .font(.title)
                 .fontWeight(.bold)
             Text("by Zachary Kornbluth")
-            Text("Version 1.1")
+            Text("Version 1.1.1")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             Divider()
@@ -36,7 +36,13 @@ struct AboutView: View {
                     openURL(url)
                 }
             }) {
-                Text("GitHub")
+                HStack(spacing: 4) {
+                    Image("github") // Replace with your GitHub logo image name
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 16, height: 16)
+                    Text("GitHub")
+                }
             }
             Divider()
             Button("Close") {

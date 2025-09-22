@@ -22,7 +22,7 @@ struct ContentView: View {
                 }
             }
             Divider()
-                .frame(maxWidth: 166)
+                .frame(maxWidth: 182)
             HStack {
                 Spacer()
                 Text("All times in EDT")
@@ -50,11 +50,11 @@ struct ContentView: View {
                     }
                     Button("Quit") { NSApp.terminate(nil) }
                 } label: {
-                    Image(systemName: "gearshape.fill")
+                    Image(systemName: "gear")
                         .padding(4)
                 }
                 .menuStyle(.borderlessButton)
-                .frame(maxWidth: 166, alignment: .trailing)
+                .frame(maxWidth: 182, alignment: .trailing)
                 .fixedSize()
             }
             .onChange(of: fetcher.sport) { newSport, _ in
@@ -62,7 +62,7 @@ struct ContentView: View {
                     await fetcher.switchSport(to: newSport)
                 }
             }
-            .frame(maxWidth: 166)
+            .frame(maxWidth: 182)
         }
         .padding()
         .background(Color(.windowBackgroundColor))
@@ -73,6 +73,7 @@ struct ContentView: View {
 }
 
 struct GameRowView: View {
+    @Environment(\.openURL) var openURL
     let event: Event
     let sport: Sport
     
@@ -92,26 +93,33 @@ struct GameRowView: View {
                     } placeholder: {
                         ProgressView()
                     }
+                    .help(away.team.displayName)
                     .frame(width: 24, height: 24)
-                    
-                    if gameNotStarted {
-                        Text(statusText)
-                            .font(.footnote)
-                            .frame(minWidth: 102, alignment: .center)
-                    } else {
-                        Text("\(away.intScore)")
-                            .font(.subheadline)
-                            .frame(width: 20, alignment: .trailing)
-                        
-                        Text(statusText)
-                            .font(.footnote)
-                            .foregroundColor(.gray)
-                            .frame(minWidth: 50, alignment: .center)
-                        
-                        Text("\(home.intScore)")
-                            .font(.subheadline)
-                            .frame(width: 20, alignment: .leading)
+                    Button {
+                        if let url = URL(string: event.links[0].href) {
+                            openURL(url)
+                        }
+                    } label: {
+                        if gameNotStarted {
+                            Text(statusText)
+                                .font(.footnote)
+                                .frame(minWidth: 122, alignment: .center)
+                        } else {
+                            Text("\(away.intScore)")
+                                .font(.subheadline)
+                                .frame(width: 25, alignment: .trailing)
+                            
+                            Text(statusText)
+                                .font(.footnote)
+                                .foregroundColor(.gray)
+                                .frame(minWidth: 60, alignment: .center)
+                            
+                            Text("\(home.intScore)")
+                                .font(.subheadline)
+                                .frame(width: 25, alignment: .leading)
+                        }
                     }
+                    .buttonStyle(.plain)
                     
                     let homeLogo = home.team.logo == "" ? sport.leagueLogo : home.team.logo
                     AsyncImage(url: URL(string: homeLogo)) { image in
@@ -119,6 +127,7 @@ struct GameRowView: View {
                     } placeholder: {
                         ProgressView()
                     }
+                    .help(home.team.displayName)
                     .frame(width: 24, height: 24)
                 }
             }
