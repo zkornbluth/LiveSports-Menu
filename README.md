@@ -6,9 +6,9 @@ MacOS Menu Bar app to follow MLB, NFL, NHL, NBA, and Premier League game scores 
 Inspired by [https://github.com/markolson/MLB-Menu](https://github.com/markolson/MLB-Menu) and [https://github.com/kchau/NFL-Menu](https://github.com/kchau/NFL-Menu).
 
 ## Installation
-*LiveSports-Menu requires macOS 15.0 or later*
+*LiveSports-Menu requires macOS 14.6 or later*
 
-Click on `LiveSports-Menu-1.1.dmg` and click the Download button, or click [here](https://github.com/zkornbluth/LiveSports-Menu/releases/download/v1.1/LiveSports-Menu.1.1.dmg).
+Click on `LiveSports-Menu-1.1.1.dmg` and click the Download button, or click [here](https://github.com/zkornbluth/LiveSports-Menu/releases/download/v1.1.1/LiveSports-Menu.1.1.1.dmg).
 
 Double-click on the .dmg in your Downloads folder. In the popup, drag LiveSports Menu into your Applications folder.
 
