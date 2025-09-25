@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  LiveSports-Menu
 //
-//  Created by Zach Kornbluth on 9/18/25.
+//  Created by Zachary Kornbluth <github.com/zkornbluth> on 9/18/25.
 //
 
 import SwiftUI

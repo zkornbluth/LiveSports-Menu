@@ -2,7 +2,7 @@
 //  Models.swift
 //  LiveSports-Menu
 //
-//  Created by Zach Kornbluth on 9/18/25.
+//  Created by Zachary Kornbluth <github.com/zkornbluth> on 9/18/25.
 //
 
 import Foundation
@@ -86,9 +86,14 @@ struct StatusType: Decodable {
                 let range = detail.range(of: " at ")
                 if range != nil {
                     let timeWithTimezone = String(detail[range!.upperBound...])
-                    return String(timeWithTimezone.dropLast(4))
+                    let weekday = detail.prefix(3) + " "
+                    return weekday + String(timeWithTimezone.dropLast(4))
                 }
             }
+        } else if shortDetail.prefix(10) == "Rain Delay" {
+            // in progress, it follows this format: Rain Delay - Top 1st
+            // widens the screen if we show everything, so just show Rain Delay
+            return "Rain Delay"
         }
         // Otherwise - game is in progress or over, just return shortDetail
         return shortDetail
