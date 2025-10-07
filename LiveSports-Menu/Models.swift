@@ -94,6 +94,9 @@ struct StatusType: Decodable {
             // in progress, it follows this format: Rain Delay - Top 1st
             // widens the screen if we show everything, so just show Rain Delay
             return "Rain Delay"
+        } else if shortDetail.prefix(7) == "Delayed" {
+            // same as above
+            return "Delayed"
         }
         // Otherwise - game is in progress or over, just return shortDetail
         return shortDetail
