@@ -8,7 +8,7 @@ Inspired by [https://github.com/markolson/MLB-Menu](https://github.com/markolson
 ## Installation
 *LiveSports-Menu requires macOS 14.6 or later*
 
-Click on `LiveSports-Menu-1.1.1.dmg` and click the Download button, or click [here](https://github.com/zkornbluth/LiveSports-Menu/releases/download/v1.1.1/LiveSports-Menu.1.1.1.dmg).
+Click on `LiveSports-Menu-1.2.dmg` and click the Download button, or click [here](https://github.com/zkornbluth/LiveSports-Menu/releases/download/v1.2/LiveSports-Menu.1.2.dmg).
 
 Double-click on the .dmg in your Downloads folder. In the popup, drag LiveSports Menu into your Applications folder.
 
@@ -31,9 +31,9 @@ All interaction is through the macOS Menu Bar. Click the baseball icon to open t
 
 The app defaults to showing the current day's MLB schedule. 
 
-The ESPN API (where the app gets the data) changes from the previous day's scoreboard to the current day's schedule usually between 9am and 11am ET (for all leagues except NFL). 
+The ESPN API (where the app gets the data) changes from the previous day's scoreboard to the current day's schedule usually between 9am and 11am ET (for all leagues except NFL and college football). 
 
-The NFL scoreboard is weekly, and it changes to the next week's schedule on Tuesdays usually between 9am and 11am ET.
+The NFL and college football scoreboards are weekly, and they change to the next week's schedule on Tuesdays usually between 9am and 11am ET.
 
 Switch to another league:
 1. Click the gear in the bottom right
