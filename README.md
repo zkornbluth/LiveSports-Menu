@@ -1,7 +1,7 @@
 <!-- Author: Zachary Kornbluth -->
 <!-- GitHub: github.com/zkornbluth -->
 # Live Sports Scores Menu Bar App
-MacOS Menu Bar app to follow MLB, NFL, NHL, NBA, and Premier League game scores live. 
+MacOS Menu Bar app to follow MLB, NFL, NHL, NBA, Premier League game, and college football scores live. 
 
 Inspired by [https://github.com/markolson/MLB-Menu](https://github.com/markolson/MLB-Menu) and [https://github.com/kchau/NFL-Menu](https://github.com/kchau/NFL-Menu).
 
