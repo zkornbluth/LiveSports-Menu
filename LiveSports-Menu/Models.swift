@@ -35,6 +35,7 @@ struct Competitor: Decodable, Identifiable {
     let homeAway: String
     let team: Team
     let score: String
+    let curatedRank: Rank? // Only exists for CFB
     
     var intScore: Int {
         Int(score) ?? 0
@@ -53,6 +54,15 @@ struct Status: Decodable {
     let type: StatusType
 }
 
+// Rank (CFB)
+struct Rank: Decodable {
+    let current: Int
+    
+    func displayRank() -> String {
+        return current == 99 ? "" : "\(current)"
+    }
+}
+
 struct StatusType: Decodable {
     let shortDetail: String
     let detail: String
@@ -66,17 +76,39 @@ struct StatusType: Decodable {
         // If state is "pre" - game hasn't started yet
         if self.state == "pre" {
             switch sport {
-            case .mlb, .nhl, .nba, .nfl:
+            case .mlb, .nhl, .nba, .nfl, .cfbt25, .cfbacc, .cfbbig10, .cfbbig12, .cfbsec:
                 // MLB, NHL, NBA are all the same - just want the time
-                // NFL is almost the same, but add the weekday from detail
+                // NFL/CFB are almost the same, but add the weekday from detail
                 let range = shortDetail.range(of: " - ")
                 if range != nil {
                     let timeWithTimezone = String(shortDetail[range!.upperBound...])
                     let weekday: String
-                    if sport == .nfl {
+                    if [.nfl, .cfbt25, .cfbacc, .cfbbig10, .cfbbig12, .cfbsec].contains(sport) {
                         weekday = detail.prefix(3) + " "
                     } else {
-                        weekday = ""
+                        // If there's no games today, ESPN scoreboard may show a later day's schedule
+                        // In that case, we want to show that date before the games so user doesn't think they're today
+                        let today = Date()
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "MM/dd"
+                        var formattedDate = dateFormatter.string(from: today)
+
+                        // Remove leading zeros - API returns 9/1 or 10/1 not 09/01 or 10/01
+                        // Check string indices 0 and 3, remove if they're "0"
+                        // 3 first, in case it's removed it won't affect 0
+                        for indexToCheck in [3, 0] {
+                            let indexToRemove = formattedDate.index(formattedDate.startIndex, offsetBy: indexToCheck)
+                            
+                            if formattedDate[indexToRemove] == "0" {
+                                formattedDate.remove(at: indexToRemove)
+                            }
+                        }
+                        let scheduledDate = shortDetail[..<range!.lowerBound]
+                        if scheduledDate != formattedDate {
+                            weekday = formattedDate + " "
+                        } else {
+                            weekday = ""
+                        }
                     }
                     return weekday + String(timeWithTimezone.dropLast(4)) // drop timezone and leading space
                 }
@@ -98,7 +130,7 @@ struct StatusType: Decodable {
             // same as above
             return "Delayed"
         }
-        // Otherwise - game is in progress or over, just return shortDetail
+        // Otherwise - game is in progress or over, just return shortDetail for all sports
         return shortDetail
     }
 }

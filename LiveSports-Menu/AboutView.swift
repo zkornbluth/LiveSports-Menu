@@ -27,7 +27,7 @@ struct AboutView: View {
                 .font(.title)
                 .fontWeight(.bold)
             Text("by Zachary Kornbluth")
-            Text("Version 1.1.1")
+            Text("Version 1.2")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             Divider()
@@ -37,7 +37,7 @@ struct AboutView: View {
                 }
             }) {
                 HStack(spacing: 4) {
-                    Image("github") // Replace with your GitHub logo image name
+                    Image("github")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 16, height: 16)

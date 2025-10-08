@@ -11,11 +11,16 @@ struct ContentView: View {
     @ObservedObject var fetcher: GameFetcher
     @Binding var showingAbout: Bool
     @Environment(\.openWindow) var openWindow
+    @State private var showNoEvents = false
     
     var body: some View {
         VStack(spacing: 8) {
             if fetcher.events.isEmpty {
-                Text("Loading…")
+                Text(showNoEvents ? "No scheduled games today" : "Loading…")
+                    .task {
+                        try? await Task.sleep(for: .seconds(3))
+                        showNoEvents = true
+                    }
             } else {
                 ForEach(fetcher.events) { event in
                     GameRowView(event: event, sport: fetcher.sport)
@@ -34,6 +39,13 @@ struct ContentView: View {
                         Text("NHL").tag(Sport.nhl)
                         Text("NBA").tag(Sport.nba)
                         Text("Premier League").tag(Sport.epl)
+                        Picker("College Football", selection: $fetcher.sport) {
+                            Text("Top 25").tag(Sport.cfbt25)
+                            Text("ACC").tag(Sport.cfbacc)
+                            Text("Big Ten").tag(Sport.cfbbig10)
+                            Text("Big 12").tag(Sport.cfbbig12)
+                            Text("SEC").tag(Sport.cfbsec)
+                        }
                     }
                     Divider()
                     Button("About") {
@@ -58,6 +70,7 @@ struct ContentView: View {
                 .fixedSize()
             }
             .onChange(of: fetcher.sport) { newSport, _ in
+                showNoEvents = false
                 Task {
                     await fetcher.switchSport(to: newSport)
                 }
@@ -84,9 +97,15 @@ struct GameRowView: View {
             
             if let away = away, let home = home {
                 let statusText = event.status.type.displayStatus(for: sport)
-                let gameNotStarted = statusText.contains("AM") || statusText.contains("PM")
+                let gameNotStarted = event.status.type.state == "pre"
                 
                 HStack(spacing: 6) {
+                    if [.cfbt25, .cfbacc, .cfbbig10, .cfbbig12, .cfbsec].contains(sport) {
+                        // Away team rank (99 represents unranked, don't show)
+                        Text(away.curatedRank?.displayRank() ?? "")
+                            .font(.footnote)
+                            .frame(minWidth: 15)
+                    }
                     let awayLogo = away.team.logo == "" ? sport.leagueLogo : away.team.logo
                     AsyncImage(url: URL(string: awayLogo)) { image in
                         image.resizable().scaledToFit()
@@ -129,13 +148,19 @@ struct GameRowView: View {
                     }
                     .help(home.team.displayName)
                     .frame(width: 24, height: 24)
+                    if [.cfbt25, .cfbacc, .cfbbig10, .cfbbig12, .cfbsec].contains(sport) {
+                        // Home team rank (99 represents unranked, don't show)
+                        Text(home.curatedRank?.displayRank() ?? "")
+                            .font(.footnote)
+                            .frame(minWidth: 15)
+                    }
                 }
             }
         }
     }
 }
 
-//#Preview {
-//    ContentView(fetcher: GameFetcher(), showingAbout: false)
-//        .frame(minHeight: 550)
-//}
+#Preview {
+    ContentView(fetcher: GameFetcher(), showingAbout: .constant(false))
+        .frame(minWidth: 180, minHeight: 650)
+}
