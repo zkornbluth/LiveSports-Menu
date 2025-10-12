@@ -27,7 +27,7 @@ struct AboutView: View {
                 .font(.title)
                 .fontWeight(.bold)
             Text("by Zachary Kornbluth")
-            Text("Version 1.2")
+            Text("Version 1.2.1")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             Divider()
