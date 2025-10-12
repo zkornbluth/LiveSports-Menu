@@ -8,7 +8,7 @@ Inspired by [https://github.com/markolson/MLB-Menu](https://github.com/markolson
 ## Installation
 *LiveSports-Menu requires macOS 14.6 or later*
 
-Click on `LiveSports-Menu-1.2.dmg` and click the Download button, or click [here](https://github.com/zkornbluth/LiveSports-Menu/releases/download/v1.2/LiveSports-Menu.1.2.dmg).
+Click on `LiveSports-Menu-1.2.1.dmg` and click the Download button, or click [here](https://github.com/zkornbluth/LiveSports-Menu/releases/download/v1.2.1/LiveSports-Menu.1.2.1.dmg).
 
 Double-click on the .dmg in your Downloads folder. In the popup, drag LiveSports Menu into your Applications folder.
 
