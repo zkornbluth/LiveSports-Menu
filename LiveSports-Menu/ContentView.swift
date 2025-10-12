@@ -106,8 +106,8 @@ struct GameRowView: View {
                             .font(.footnote)
                             .frame(minWidth: 15)
                     }
-                    let awayLogo = away.team.logo == "" ? sport.leagueLogo : away.team.logo
-                    AsyncImage(url: URL(string: awayLogo)) { image in
+                    let awayLogo = (away.team.logo == nil || away.team.logo == "") ? sport.leagueLogo : away.team.logo
+                    AsyncImage(url: URL(string: awayLogo ?? sport.leagueLogo)) { image in
                         image.resizable().scaledToFit()
                     } placeholder: {
                         ProgressView()
@@ -140,8 +140,8 @@ struct GameRowView: View {
                     }
                     .buttonStyle(.plain)
                     
-                    let homeLogo = home.team.logo == "" ? sport.leagueLogo : home.team.logo
-                    AsyncImage(url: URL(string: homeLogo)) { image in
+                    let homeLogo = (home.team.logo == nil || home.team.logo == "") ? sport.leagueLogo : home.team.logo
+                    AsyncImage(url: URL(string: homeLogo ?? sport.leagueLogo)) { image in
                         image.resizable().scaledToFit()
                     } placeholder: {
                         ProgressView()

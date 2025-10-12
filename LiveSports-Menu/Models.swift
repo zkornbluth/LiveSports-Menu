@@ -46,7 +46,7 @@ struct Competitor: Decodable, Identifiable {
 struct Team: Decodable {
     let id: String
     let displayName: String
-    let logo: String
+    let logo: String?
 }
 
 // Game status
@@ -105,7 +105,7 @@ struct StatusType: Decodable {
                         }
                         let scheduledDate = shortDetail[..<range!.lowerBound]
                         if scheduledDate != formattedDate {
-                            weekday = formattedDate + " "
+                            weekday = scheduledDate + " "
                         } else {
                             weekday = ""
                         }
