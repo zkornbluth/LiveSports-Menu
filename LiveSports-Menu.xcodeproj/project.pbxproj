@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AB37E7272F5A1FE70019F694 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = AB37E7262F5A1FE70019F694 /* KeyboardShortcuts */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		ABFAB9B52E7C9B6200AB61D1 /* LiveSports-Menu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LiveSports-Menu.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB37E7272F5A1FE70019F694 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = "LiveSports-Menu";
 			packageProductDependencies = (
+				AB37E7262F5A1FE70019F694 /* KeyboardShortcuts */,
 			);
 			productName = "LiveSports-Menu";
 			productReference = ABFAB9B52E7C9B6200AB61D1 /* LiveSports-Menu.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = ABFAB9AC2E7C9B6200AB61D1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AB37E7252F5A1FE70019F694 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = ABFAB9B62E7C9B6200AB61D1 /* Products */;
 			projectDirPath = "";
@@ -269,7 +278,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.zkornbluth.LiveSports-Menu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -300,7 +309,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.zkornbluth.LiveSports-Menu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -331,6 +340,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AB37E7252F5A1FE70019F694 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AB37E7262F5A1FE70019F694 /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB37E7252F5A1FE70019F694 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = ABFAB9AD2E7C9B6200AB61D1 /* Project object */;
 }

@@ -10,6 +10,8 @@ import SwiftUI
 
 @MainActor
 class GameFetcher: ObservableObject {
+    static let shared = GameFetcher()
+    
     @Published var events: [Event] = []
     @Published var sport: Sport = .mlb
 

@@ -51,13 +51,11 @@ struct ContentView: View {
                         }
                     }
                     Divider()
-                    Button("About") {
-                        // Try multiple approaches to open the window
-                        openWindow(id: "aboutWindow")
+                    Button("Keyboard Shortcut") {
+                        openWindow(id: "keyboardShortcutWindow")
                         
-                        // Alternative approach using NSApp
                         DispatchQueue.main.async {
-                            if let window = NSApp.windows.first(where: { $0.identifier?.rawValue == "aboutWindow" }) {
+                            if let window = NSApp.windows.first(where: { $0.identifier?.rawValue == "keyboardShortcutWindow" }) {
                                 window.makeKeyAndOrderFront(nil)
                                 NSApp.activate(ignoringOtherApps: true)
                             }
@@ -68,6 +66,19 @@ struct ContentView: View {
                         showNoEvents = false
                         Task {
                             await fetcher.loadTodayGames()
+                        }
+                    }
+                    Divider()
+                    Button("About") {
+                        // Try multiple approaches to open the window
+                        openWindow(id: "aboutWindow")
+                        
+                        // Alternative approach using NSApp
+                        DispatchQueue.main.async {
+                            if let window = NSApp.windows.first(where: { $0.identifier?.rawValue == "aboutWindow" }) {
+                                window.makeKeyAndOrderFront(nil)
+                                NSApp.activate(ignoringOtherApps: true)
+                            }
                         }
                     }
                     Button("Quit") { NSApp.terminate(nil) }

@@ -9,31 +9,28 @@ import SwiftUI
 
 @main
 struct LiveSports_MenuApp: App {
-    @StateObject private var fetcher = GameFetcher()
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @StateObject private var fetcher = GameFetcher.shared
     @State private var showingAbout = false
-
-    var body: some Scene {
-        MenuBarExtra {
-            ContentView(fetcher: fetcher, showingAbout: $showingAbout)
-        } label: {
-            Label {
-                Text("Live Sports Scores")
-            } icon: {
-                let iconName = fetcher.sport.icon
-                let image: NSImage = {
-                    let img = NSImage(named: iconName)!
-                    let ratio = img.size.height / img.size.width
-                    img.size.height = 18
-                    img.size.width = 18 / ratio
-                    return img
-                }()
-                Image(nsImage: image)
+    
+    init() {
+        KeyboardShortcutService.shared.action(for: .toggleLiveSportsMenu) {
+            Task { @MainActor in
+                StatusItemController.shared?.togglePopover()
             }
         }
-        .menuBarExtraStyle(.window)
-        
+    }
+ 
+    var body: some Scene {
         Window("About", id: "aboutWindow") {
             AboutView()
+        }
+        .windowResizability(.contentSize)
+        .windowStyle(.titleBar)
+        .defaultPosition(.center)
+        
+        Window("Keyboard shortcut settings", id: "keyboardShortcutWindow") {
+            KeyboardShortcutView()
         }
         .windowResizability(.contentSize)
         .windowStyle(.titleBar)
