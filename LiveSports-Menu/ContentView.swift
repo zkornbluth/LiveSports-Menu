@@ -30,8 +30,6 @@ struct ContentView: View {
                 .frame(maxWidth: 182)
             HStack {
                 Spacer()
-                Text("All times in EDT")
-                    .font(.footnote)
                 Menu {
                     Picker("Change Sport", selection: $fetcher.sport) {
                         Text("MLB").tag(Sport.mlb)

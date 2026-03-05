@@ -72,6 +72,72 @@ struct StatusType: Decodable {
         return displayStatus(for: .mlb) // Default to MLB behavior
     }
     
+    /// Convert a time string that is in Eastern time (as returned by the ESPN API)
+    /// into the user's local time zone, preserving the time and adding the local
+    /// time zone abbreviation (e.g. "7:00 PM EST" -> "4:00 PM PST").
+    private func convertEasternTimeToLocal(timeWithTimezone: String, scheduledDate: String?) -> String {
+        let trimmedTime = timeWithTimezone.trimmingCharacters(in: .whitespaces)
+        if trimmedTime.isEmpty {
+            return trimmedTime
+        }
+        
+        let calendar = Calendar(identifier: .gregorian)
+        let now = Date()
+        let currentYear = calendar.component(.year, from: now)
+        
+        // Build a date string that includes year, month, and day so that DST
+        // is handled correctly for future/past games as well.
+        let easternFormatter = DateFormatter()
+        easternFormatter.locale = Locale(identifier: "en_US_POSIX")
+        easternFormatter.timeZone = TimeZone(identifier: "America/New_York")
+        
+        let month: Int
+        let day: Int
+        
+        if let scheduledDate = scheduledDate, !scheduledDate.isEmpty {
+            // scheduledDate is in "M/d" or "MM/dd" form as returned by the API
+            let parts = scheduledDate.split(separator: "/")
+            if parts.count == 2,
+               let m = Int(parts[0]),
+               let d = Int(parts[1]) {
+                month = m
+                day = d
+            } else {
+                month = calendar.component(.month, from: now)
+                day = calendar.component(.day, from: now)
+            }
+        } else {
+            // Fall back to today's date if we don't have a scheduled date
+            month = calendar.component(.month, from: now)
+            day = calendar.component(.day, from: now)
+        }
+        
+        let baseDateString = "\(currentYear) \(month)/\(day) "
+        var date: Date? = nil
+        
+        // First, try parsing when the time string includes an explicit timezone (e.g. "7:00 PM EDT")
+        easternFormatter.dateFormat = "yyyy M/d h:mm a zzz"
+        date = easternFormatter.date(from: baseDateString + trimmedTime)
+        
+        // If that fails, try without an explicit timezone (e.g. "7:00 PM")
+        if date == nil {
+            easternFormatter.dateFormat = "yyyy M/d h:mm a"
+            date = easternFormatter.date(from: baseDateString + trimmedTime)
+        }
+        
+        // If parsing still fails, just fall back to the original time string without modification
+        guard let easternDate = date else {
+            return trimmedTime
+        }
+        
+        let localFormatter = DateFormatter()
+        localFormatter.locale = Locale(identifier: "en_US_POSIX")
+        localFormatter.timeZone = TimeZone.current
+        localFormatter.dateFormat = "h:mm a z"
+        
+        return localFormatter.string(from: easternDate)
+    }
+    
     func displayStatus(for sport: Sport) -> String {
         // If state is "pre" - game hasn't started yet
         if self.state == "pre" {
@@ -80,8 +146,9 @@ struct StatusType: Decodable {
                 // MLB, NHL, NBA are all the same - just want the time
                 // NFL/CFB are almost the same, but add the weekday from detail
                 let range = shortDetail.range(of: " - ")
-                if range != nil {
-                    let timeWithTimezone = String(shortDetail[range!.upperBound...])
+                if let range = range {
+                    let timeWithTimezone = String(shortDetail[range.upperBound...])
+                    let scheduledDateRaw = String(shortDetail[..<range.lowerBound])
                     let weekday: String
                     if [.nfl, .cfbt25, .cfbacc, .cfbbig10, .cfbbig12, .cfbsec].contains(sport) {
                         weekday = detail.prefix(3) + " "
@@ -103,23 +170,26 @@ struct StatusType: Decodable {
                                 formattedDate.remove(at: indexToRemove)
                             }
                         }
-                        let scheduledDate = shortDetail[..<range!.lowerBound]
-                        if scheduledDate != formattedDate {
-                            weekday = scheduledDate + " "
+                        if scheduledDateRaw != formattedDate {
+                            weekday = scheduledDateRaw + " "
                         } else {
                             weekday = ""
                         }
                     }
-                    return weekday + String(timeWithTimezone.dropLast(4)) // drop timezone and leading space
+                    let localTime = convertEasternTimeToLocal(timeWithTimezone: timeWithTimezone,
+                                                              scheduledDate: scheduledDateRaw)
+                    return weekday + localTime
                 }
             case .epl:
                 // EPL has scheduled time only in detail, not shortDetail
                 // Also has no -, need to split around " at "
                 let range = detail.range(of: " at ")
-                if range != nil {
-                    let timeWithTimezone = String(detail[range!.upperBound...])
+                if let range = range {
+                    let timeWithTimezone = String(detail[range.upperBound...])
                     let weekday = detail.prefix(3) + " "
-                    return weekday + String(timeWithTimezone.dropLast(4))
+                    let localTime = convertEasternTimeToLocal(timeWithTimezone: timeWithTimezone,
+                                                              scheduledDate: nil)
+                    return weekday + localTime
                 }
             }
         } else if shortDetail.prefix(10) == "Rain Delay" {
