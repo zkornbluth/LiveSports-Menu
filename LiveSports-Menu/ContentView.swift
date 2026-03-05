@@ -12,17 +12,22 @@ struct ContentView: View {
     @Binding var showingAbout: Bool
     @Environment(\.openWindow) var openWindow
     @State private var showNoEvents = false
+    @State private var hideCompletedGames = false
     
     var body: some View {
         VStack(spacing: 8) {
-            if fetcher.events.isEmpty {
+            let displayedEvents = hideCompletedGames
+            ? fetcher.events.filter { $0.status.type.shortDetail != "Final" }
+            : fetcher.events
+            
+            if displayedEvents.isEmpty {
                 Text(showNoEvents ? "No scheduled games today" : "Loading…")
                     .task {
                         try? await Task.sleep(for: .seconds(3))
                         showNoEvents = true
                     }
             } else {
-                ForEach(fetcher.events) { event in
+                ForEach(displayedEvents) { event in
                     GameRowView(event: event, sport: fetcher.sport)
                 }
             }
@@ -56,6 +61,13 @@ struct ContentView: View {
                                 window.makeKeyAndOrderFront(nil)
                                 NSApp.activate(ignoringOtherApps: true)
                             }
+                        }
+                    }
+                    Toggle("Hide Completed Games", isOn: $hideCompletedGames)
+                    Button("Refresh") {
+                        showNoEvents = false
+                        Task {
+                            await fetcher.loadTodayGames()
                         }
                     }
                     Button("Quit") { NSApp.terminate(nil) }
