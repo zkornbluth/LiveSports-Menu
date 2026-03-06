@@ -11,7 +11,7 @@ import KeyboardShortcuts
 extension KeyboardShortcuts.Name {
     static let toggleLiveSportsMenu = Self(
         "ToggleLiveSportsMenu",
-        default: .init(.l, modifiers: [.command, .option])
+        default: .init(.l, modifiers: [.control, .option])
     )
 }
 

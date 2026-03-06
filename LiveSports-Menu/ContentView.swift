@@ -17,7 +17,10 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 8) {
             let displayedEvents = hideCompletedGames
-            ? fetcher.events.filter { $0.status.type.shortDetail != "Final" }
+            ? fetcher.events.filter {
+                !$0.status.type.shortDetail.contains("Final") &&
+                !$0.status.type.shortDetail.contains("FT")
+            }
             : fetcher.events
             
             if displayedEvents.isEmpty {
