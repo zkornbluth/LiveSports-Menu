@@ -1,14 +1,14 @@
 <!-- Author: Zachary Kornbluth -->
 <!-- GitHub: github.com/zkornbluth -->
 # Live Sports Scores Menu Bar App
-MacOS Menu Bar app to follow MLB, NFL, NHL, NBA, Premier League game, and college football scores live. 
+MacOS Menu Bar app to follow MLB, NFL, NHL, NBA, Premier League, and college football scores live. 
 
 Inspired by [https://github.com/markolson/MLB-Menu](https://github.com/markolson/MLB-Menu) and [https://github.com/kchau/NFL-Menu](https://github.com/kchau/NFL-Menu).
 
 ## Installation
 *LiveSports-Menu requires macOS 14.6 or later*
 
-Click on `LiveSports-Menu-1.2.1.dmg` and click the Download button, or click [here](https://github.com/zkornbluth/LiveSports-Menu/releases/download/v1.2.1/LiveSports-Menu.1.2.1.dmg).
+Click on `LiveSports-Menu-1.2.3.dmg` and click the Download button, or click [here](https://github.com/zkornbluth/LiveSports-Menu/releases/download/v1.2.3/LiveSports-Menu.1.2.3.dmg).
 
 Double-click on the .dmg in your Downloads folder. In the popup, drag LiveSports Menu into your Applications folder.
 
@@ -35,13 +35,19 @@ The ESPN API (where the app gets the data) changes from the previous day's score
 
 The NFL and college football scoreboards are weekly, and they change to the next week's schedule on Tuesdays usually between 9am and 11am ET.
 
-Switch to another league:
+Toggling "Hide Completed Games" under the gear menu filters out any game listed as "Final" or "FT".
+
+To switch to another league:
 1. Click the gear in the bottom right
 2. Hover over "Change Sport"
 3. In the submenu, click the league name
 
 <!--<img src="https://github.com/user-attachments/assets/2df24732-32f2-4845-9293-4aae1001dc19" width="434" height="686" />-->
 <img src="https://github.com/user-attachments/assets/36d28c35-f68c-4eb2-a761-008f732ad533" width="474" height="738" />
+
+Clicking "Keyboard Shortcut" under the gear menu opens the Keyboard Shortcut popup, which allows you to enable a keyboard shortcut to open/close the widget and to change that shortcut.
+
+<img width="632" height="324" alt="keyboardpopup" src="https://github.com/user-attachments/assets/e8a147ba-6826-450c-9a43-aca115268395" />
 
 ### Credits
 Baseball icon:
